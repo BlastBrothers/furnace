@@ -878,6 +878,7 @@ class FurnaceGUI {
     int fmLayout;
     int sampleLayout;
     int waveLayout;
+    int instWaveSampleSelectFocusesEditor;
     int susPosition;
     int effectCursorDir;
     int cursorPastePos;
@@ -967,6 +968,7 @@ class FurnaceGUI {
       fmLayout(0),
       sampleLayout(0),
       waveLayout(0),
+      instWaveSampleSelectFocusesEditor(0),
       susPosition(0),
       effectCursorDir(1),
       cursorPastePos(1),

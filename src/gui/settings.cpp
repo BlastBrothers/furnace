@@ -1187,6 +1187,11 @@ void FurnaceGUI::drawSettings() {
             settings.sampleLayout=sampleLayoutB;
           }
 
+          bool instWaveSampleSelectFocusesEditorB=settings.instWaveSampleSelectFocusesEditor;
+          if (ImGui::Checkbox("Selecting an instrument/wave/sample focuses corresponding editor (and vice versa)",&instWaveSampleSelectFocusesEditorB)) {
+            settings.instWaveSampleSelectFocusesEditor=instWaveSampleSelectFocusesEditorB;
+          }
+
           bool oldMacroVSliderB=settings.oldMacroVSlider;
           if (ImGui::Checkbox("Use classic macro editor vertical slider",&oldMacroVSliderB)) {
             settings.oldMacroVSlider=oldMacroVSliderB;
@@ -1873,6 +1878,7 @@ void FurnaceGUI::syncSettings() {
   settings.fmLayout=e->getConfInt("fmLayout",0);
   settings.sampleLayout=e->getConfInt("sampleLayout",0);
   settings.waveLayout=e->getConfInt("waveLayout",0);
+  settings.instWaveSampleSelectFocusesEditor=e->getConfInt("instWaveSampleSelectFocusesEditor",0);
   settings.susPosition=e->getConfInt("susPosition",0);
   settings.effectCursorDir=e->getConfInt("effectCursorDir",1);
   settings.cursorPastePos=e->getConfInt("cursorPastePos",1);
@@ -1957,6 +1963,7 @@ void FurnaceGUI::syncSettings() {
   clampSetting(settings.effectDeletionAltersValue,0,1);
   clampSetting(settings.sampleLayout,0,1);
   clampSetting(settings.waveLayout,0,1);
+  clampSetting(settings.instWaveSampleSelectFocusesEditor,0,1);
   clampSetting(settings.separateFMColors,0,1);
   clampSetting(settings.insEditColorize,0,1);
   clampSetting(settings.metroVol,0,200);
@@ -2068,6 +2075,7 @@ void FurnaceGUI::commitSettings() {
   e->setConf("fmLayout",settings.fmLayout);
   e->setConf("sampleLayout",settings.sampleLayout);
   e->setConf("waveLayout",settings.waveLayout);
+  e->setConf("instWaveSampleSelectFocusesEditor",settings.instWaveSampleSelectFocusesEditor);
   e->setConf("susPosition",settings.susPosition);
   e->setConf("effectCursorDir",settings.effectCursorDir);
   e->setConf("cursorPastePos",settings.cursorPastePos);
