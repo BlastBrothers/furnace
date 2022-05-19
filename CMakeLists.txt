@@ -392,13 +392,13 @@ if (WIN32)
 endif()
 
 set(GUI_SOURCES
-extern/imgui/imgui.cpp
-extern/imgui/imgui_draw.cpp
-extern/imgui/imgui_tables.cpp
-extern/imgui/imgui_widgets.cpp
-extern/imgui_patched/imgui_impl_sdlrenderer.cpp
-extern/imgui_patched/imgui_impl_sdl.cpp
-extern/imgui/misc/cpp/imgui_stdlib.cpp
+extern/imgui_patched/imgui.cpp
+extern/imgui_patched/imgui_draw.cpp
+extern/imgui_patched/imgui_tables.cpp
+extern/imgui_patched/imgui_widgets.cpp
+extern/imgui_patched/backends/imgui_impl_sdlrenderer.cpp
+extern/imgui_patched/backends/imgui_impl_sdl.cpp
+extern/imgui_patched/misc/cpp/imgui_stdlib.cpp
 extern/igfd/ImGuiFileDialog.cpp
 
 src/gui/plot_nolerp.cpp
@@ -467,9 +467,9 @@ set(USED_SOURCES ${ENGINE_SOURCES} ${AUDIO_SOURCES} src/main.cpp)
 if (BUILD_GUI)
   list(APPEND USED_SOURCES ${GUI_SOURCES})
   list(APPEND DEPENDENCIES_INCLUDE_DIRS
-    extern/imgui
+    extern/imgui_patched
     extern/imgui_conf
-    extern/imgui/backends
+    extern/imgui_patched/backends
     extern/IconFontCppHeaders
     extern/igfd
   )
@@ -557,6 +557,11 @@ if (NOT ANDROID)
     install(DIRECTORY papers DESTINATION ${CMAKE_INSTALL_DOCDIR})
     install(FILES LICENSE DESTINATION ${CMAKE_INSTALL_DATADIR}/licenses/furnace)
     install(DIRECTORY demos DESTINATION ${CMAKE_INSTALL_DATADIR}/furnace)
+    foreach(num 16 32 64 128 256 512)
+      set(res ${num}x${num})
+      install(FILES res/icon.iconset/icon_${res}.png RENAME furnace.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${res}/apps)
+      install(FILES res/icon.iconset/icon_${res}@2x.png RENAME furnace.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${res}@2/apps)
+    endforeach()
     install(FILES res/logo.png RENAME furnace.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/1024x1024/apps)
   endif()
   

@@ -813,6 +813,16 @@ bool DivEngine::removeSubSong(int index) {
   return true;
 }
 
+void DivEngine::clearSubSongs() {
+  BUSY_BEGIN;
+  saveLock.lock();
+  song.clearSongData();
+  changeSong(0);
+  curOrder=0;
+  saveLock.unlock();
+  BUSY_END;
+}
+
 void DivEngine::changeSystem(int index, DivSystem which, bool preserveOrder) {
   int chanCount=chans;
   quitDispatch();
@@ -1058,6 +1068,7 @@ void DivEngine::playSub(bool preserveDrift, int goalRow) {
     endOfSong=false;
   } else {
     ticks=1;
+    tempoAccum=0;
     totalTicks=0;
     totalSeconds=0;
     totalTicksR=0;
@@ -1933,13 +1944,13 @@ int DivEngine::addSampleFromFile(const char* path) {
       }
       extS+=i;
     }
-    if (extS==String(".dmc")) { // read as .dmc
+    if (extS==".dmc") { // read as .dmc
       size_t len=0;
       DivSample* sample=new DivSample;
       int sampleCount=(int)song.sample.size();
       sample->name=stripPath;
 
-      FILE* f=fopen(path,"rb");
+      FILE* f=ps_fopen(path,"rb");
       if (f==NULL) {
         BUSY_END;
         lastError=fmt::sprintf("could not open file! (%s)",strerror(errno));
@@ -2659,6 +2670,7 @@ void DivEngine::quitDispatch() {
   speedAB=false;
   endOfSong=false;
   ticks=0;
+  tempoAccum=0;
   curRow=0;
   curOrder=0;
   nextSpeed=3;

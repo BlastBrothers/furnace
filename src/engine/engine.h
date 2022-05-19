@@ -45,8 +45,8 @@
 #define BUSY_BEGIN_SOFT softLocked=true; isBusy.lock();
 #define BUSY_END isBusy.unlock(); softLocked=false;
 
-#define DIV_VERSION "dev95"
-#define DIV_ENGINE_VERSION 95
+#define DIV_VERSION "dev96"
+#define DIV_ENGINE_VERSION 96
 
 // for imports
 #define DIV_VERSION_MOD 0xff01
@@ -312,6 +312,7 @@ class DivEngine {
   int changeOrd, changePos, totalSeconds, totalTicks, totalTicksR, totalCmds, lastCmds, cmdsPerSecond, globalPitch;
   unsigned char extValue;
   unsigned char speed1, speed2;
+  short tempoAccum;
   DivStatusView view;
   DivHaltPositions haltOn;
   DivChannelState chan[DIV_MAX_CHANS];
@@ -397,8 +398,11 @@ class DivEngine {
   void loadOPNI(SafeReader& reader, std::vector<DivInstrument*>& ret, String& stripPath);
   void loadY12(SafeReader& reader, std::vector<DivInstrument*>& ret, String& stripPath);
   void loadBNK(SafeReader& reader, std::vector<DivInstrument*>& ret, String& stripPath);
+  void loadGYB(SafeReader& reader, std::vector<DivInstrument*>& ret, String& stripPath);
   void loadOPM(SafeReader& reader, std::vector<DivInstrument*>& ret, String& stripPath);
   void loadFF(SafeReader& reader, std::vector<DivInstrument*>& ret, String& stripPath);
+  void loadWOPL(SafeReader& reader, std::vector<DivInstrument*>& ret, String& stripPath);
+  void loadWOPN(SafeReader& reader, std::vector<DivInstrument*>& ret, String& stripPath);
 
   int loadSampleROM(String path, ssize_t expectedSize, unsigned char*& ret);
 
@@ -818,6 +822,9 @@ class DivEngine {
     // remove subsong
     bool removeSubSong(int index);
 
+    // clear all subsong data
+    void clearSubSongs();
+
     // change system
     void changeSystem(int index, DivSystem which, bool preserveOrder=true);
 
@@ -936,6 +943,7 @@ class DivEngine {
       extValue(0),
       speed1(3),
       speed2(3),
+      tempoAccum(0),
       view(DIV_STATUS_NOTHING),
       haltOn(DIV_HALT_NONE),
       audioEngine(DIV_AUDIO_NULL),

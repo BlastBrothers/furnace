@@ -1,10 +1,6 @@
 # to-do for 0.6pre1
 
-- fix an OPLL/OPL fixed drum freq regression caused by full linear pitch
-- piano/input pad
-  - note input via piano
-  - input pad
-  - settings
+- finish ExtCh on OPNA
 - RF5C68 system
 - ZX beeper system overlay percussion
 - ADPCM chips
