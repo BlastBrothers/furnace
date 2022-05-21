@@ -37,6 +37,11 @@ void FurnaceGUI::drawInsList() {
   }
   if (!insListOpen) return;
   if (ImGui::Begin("Instruments",&insListOpen)) {
+    if (ImGui::IsItemHovered() && settings.instWaveSampleSelectFocusesEditor) {
+      nextWindow=GUI_WINDOW_INS_EDIT;
+      //insEditOpen=true;
+      //nextWindow=GUI_WINDOW_INS_LIST;
+    } 
     if (settings.unifiedDataView) settings.horizontalDataView=0;
     if (ImGui::Button(ICON_FA_PLUS "##InsAdd")) {
       doAction(GUI_ACTION_INS_LIST_ADD);
@@ -95,7 +100,6 @@ void FurnaceGUI::drawInsList() {
       if (settings.horizontalDataView) {
         ImGui::TableNextRow();
       }
-
       int curRow=0;
       for (int i=-1; i<(int)e->song.ins.size(); i++) {
         String name=ICON_FA_CIRCLE_O " - None -";
@@ -283,7 +287,9 @@ void FurnaceGUI::drawInsList() {
       ImGui::EndTable();
     }
   }
-  if (ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows)) curWindow=GUI_WINDOW_INS_LIST;
+  if (ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows)) {
+    curWindow=GUI_WINDOW_INS_LIST;
+  }
   ImGui::End();
 }
 
@@ -295,6 +301,10 @@ void FurnaceGUI::drawWaveList() {
   }
   if (!waveListOpen) return;
   if (ImGui::Begin("Wavetables",&waveListOpen)) {
+    //if (ImGui::IsItemHovered() && settings.instWaveSampleSelectFocusesEditor) {
+      //waveListOpen=true;
+      //nextWindow=GUI_WINDOW_WAVE_EDIT;
+    //} 
     if (ImGui::Button(ICON_FA_PLUS "##WaveAdd")) {
       doAction(GUI_ACTION_WAVE_LIST_ADD);
     }
@@ -340,6 +350,10 @@ void FurnaceGUI::drawSampleList() {
   }
   if (!sampleListOpen) return;
   if (ImGui::Begin("Samples",&sampleListOpen)) {
+    //if (ImGui::IsItemHovered() && settings.instWaveSampleSelectFocusesEditor) {
+      //sampleListOpen=true;
+      //nextWindow=GUI_WINDOW_SAMPLE_EDIT;
+    //} 
     if (ImGui::Button(ICON_FA_FILE "##SampleAdd")) {
       doAction(GUI_ACTION_SAMPLE_LIST_ADD);
     }
